@@ -4,3 +4,5 @@
 *.txt
 mandelbrot.ipynb
 Untitled.ipynb
+*.pyc
+

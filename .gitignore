@@ -1,2 +1,6 @@
 *.ipynb_checkpoints*
 *output*
+*__pycache__*
+*.txt
+mandelbrot.ipynb
+Untitled.ipynb

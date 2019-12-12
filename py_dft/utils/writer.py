@@ -16,10 +16,12 @@ class writer(object):
 
         self.groups = ['avg_conc', 'energy', 'order_parameter']
         
-    def get_file_path(self):
-        os.chdir(os.path.dirname(sys.argv[0]))
-        base_output_folder = "output/"
+    def get_file_path(self, base_output_folder=None):
+        if base_output_folder == None:
+            os.chdir(os.path.dirname(sys.argv[0]))
+            base_output_folder = "output/"
         base_output_name = "%s_chiN=%.2f_delta=%.4f" %(self.prefix,self.chiN,self.delta)
+        # print(base_output_name)
         hdf5_format = '.h5'
         return base_output_folder + base_output_name + hdf5_format
         

@@ -25,3 +25,9 @@ def centralDiffShift(A,h,Nx):
 #     D = np.empty_like((Nx,Nx))
     D = -1.*shift(A,2)+ 16.*shift(A,1) - 60.*A
     return D/(12.*h**2)
+
+@jit(nopython=True)
+def centralDiff(A,h,delta):
+    A = A**3
+    D = -1.*shift(A,2)+ 16.*shift(A,1) - 60.*A
+    return 1./delta * D/(12.*h**2)

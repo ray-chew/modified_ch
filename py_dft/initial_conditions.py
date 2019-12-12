@@ -5,9 +5,9 @@ import numpy as np
 # dt = temporal stepsize
 
 class ic():
-    L = 1.0
-    Nx = 128
-    dt = 0.0005
+    L = 5.6
+    Nx = 64
+    dt = 0.001
 
     chiN = 20.0
     N = 20
@@ -18,13 +18,13 @@ class ic():
 
     # define small parameters.
     delta = (3./64)**(1/3) * (1./ (chiN**(2/3 * f * (1 - f))) )
-    delta = 0.31748021039
+    delta = 0.39
 
     # u-bar == m.
-    m = 0.0
+    m = 0.4
 
     # number of iterations
-    it = 10000
+    it = 80000
     it += 1
 
     options = {

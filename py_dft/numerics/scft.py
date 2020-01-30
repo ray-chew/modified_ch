@@ -2,6 +2,7 @@ import numpy as np
 import pyfftw
 from discretisation import grids
 from numerics import mde
+from scipy import integrate
 
 
 def scft(options):
@@ -10,7 +11,9 @@ def scft(options):
     gam = options['gam']
     XN = options['chiN']
     it = options['it']
-    V = options['L']
+    L = options['L']
+    V = L*L
+    ax1 = np.linspace(0.,L,num=Nx)
 
     # define number of monomers for each type.
     N = 20
@@ -106,7 +109,7 @@ def scft(options):
             qt[:,:,s] = np.exp(-0.5*ds*w[:,:,ft[s]])*ifft_object(qpt).real
         
         # get the phi values using helper function.
-        phi = mde.solve_phi(q,qt,Nx,int(fa*Ns),ds,V)
+        phi,Q = mde.solve_phi(q,qt,Nx,int(fa*Ns),ds,L)
 
         # get the pressure term (2nd term of xi, equation 5.47e).
         pressure = (w[:,:,0] + w[:,:,1])/2
@@ -122,7 +125,16 @@ def scft(options):
 
         # print every 100th iteration.
         if i%100==0:
+            energy = XN * N * phi[:,:,0] * phi[:,:,1] - w[:,:,0] * phi[:,:,0] - w[:,:,1] * phi[:,:,1] - pressure * (1.0 - phi[:,:,0] - phi[:,:,1])
+            dim = 2
+            for _ in range(dim):
+                energy = integrate.trapz(energy,dx)
+
+            energy /= V
+            free_energy = energy - np.log(Q/V)
             print('it = %i' %i)
+
+            data = [phi[:,:,0], phi[:,:,1], free_energy]
         
     # wisdom = pyfftw.export_wisdom()
 

@@ -8,8 +8,8 @@ def get_fselector(fa,fb,Ns):
     sft = np.concatenate((np.ones(kb+1),np.zeros(ka+1)),axis=0).astype(int)
     return sf,sft
 
-def solve_phi(q,qt,Nx,Na,ds,V):
-    ax1 = np.linspace(0.,V,num=Nx)
+def solve_phi(q,qt,Nx,Na,ds,L):
+    ax1 = np.linspace(0.,L,num=Nx)
     phi = np.zeros((Nx,Nx,2))
     for j in range(Nx):
         for k in range(Nx):
@@ -19,6 +19,6 @@ def solve_phi(q,qt,Nx,Na,ds,V):
             # eqn 5.47a and eqn 5.47b
             phi[j,k,0] = integrate.trapz(tmp1[:Na+1],dx=ds)
             phi[j,k,1] = integrate.trapz(tmp1[Na:],dx=ds)
-    Q = 1./(V*V) * integrate.trapz(integrate.trapz(q[:,:,-1],x=ax1),x=ax1)
+    Q = 1./(L*L) * integrate.trapz(integrate.trapz(q[:,:,-1],x=ax1),x=ax1)
 
-    return phi/Q
+    return phi/Q, Q

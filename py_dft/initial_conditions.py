@@ -4,44 +4,45 @@ import numpy as np
 # h = spatial stepsize; dx = 1D spatial grid;
 # dt = temporal stepsize
 
-class ic():
-    L = 5.6
-    Nx = 64
+class ic(object):
+    Nx = 256
+    Ny = 256
     dt = 0.001
+    it = 75000
 
-    chiN = 20.0
-    N = 20
-    l = 1./N
-    f = 1.-0.3
-    chi = chiN / N
-    omega = (L**2)**(2/3)
+    m = -0.40
+    f = 0.3
+    delta = 0.15
 
-    # define small parameters.
-    delta = (3./64)**(1/3) * (1./ (chiN**(2/3 * f * (1 - f))) )
-    delta = 0.39
+    # Lys = np.arange(6.4,18.2,0.4)
+    # Lys = np.arange(7.0,8.0,0.1)
+    # Lys = np.arange(14.0,15.0,0.1)
+    # Lys = np.array([15.0])
+    Lys = np.array([14.85])
+    # Lys = np.delete(Lys,[4,8])
+    # Lys = np.concatenate((Lys,[7.4,7.8]))
+    # Lys.sort(kind='mergesort')
+    Lxs = Lys * 2.0 / np.sqrt(3)
 
-    # u-bar == m.
-    m = 0.4
+    Ls = [[lx,ly] for lx,ly in zip(Lxs,Lys)]
 
-    # number of iterations
-    it = 80000
-    it += 1
+    plot_initial = False
+    ic_path = '/home/ray/git-projects/modified_ch/ic_64_64.h5'
 
     options = {
-        'L' : L,
+        'Ls' : Ls,
         'Nx' : Nx,
+        'Ny' : Ny,
         'delta' : delta,
         'm' : m,
         'dt' : dt,
         'it' : it,
-        'prefix' : 'dft',
-        'N' : N,
-        'l' : l,
         'f' : f,
-        'chi' : chi,
-        'chiN' : chiN,
-        'omega' : omega
+        'plot_initial' : plot_initial,
+        'ic_path' : ic_path,
+        'prefix' : 'dft'
     }
 
     def __init__(self):
         self.options = self.options
+        
